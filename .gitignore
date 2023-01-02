@@ -1,3 +1,5 @@
 node_modules
 .env
 /nodemon.json
+
+/config/ecommerce-d8813-firebase-adminsdk-30zct-0c2083c57c.json
