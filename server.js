@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const { readdirSync } = require("fs");
 require("dotenv").config();
 
 //app
@@ -17,7 +18,7 @@ mongoose
     console.log("db connected");
     const port = process.env.PORT || 5000;
     app.listen(port, () =>
-    console.log(`server is running on port ${process.env.PORT}`)
+      console.log(`server is running on port ${process.env.PORT}`)
     );
   })
   .catch((err) => {
@@ -30,9 +31,10 @@ app.use(morgan("dev"));
 app.use(bodyParser.json({ limit: "2mb" }));
 app.use(cors());
 
-//route
-app.get("/api", (req, res) => {
-  res.json({
-    data: "hey you hit node api back end !",
-  });
+//routes middleware
+// const authRoutes = require("./routes/auth");
+// +
+// app.use("/api", authRoutes);
+readdirSync("./routes").map((r) => {
+  app.use("/api", require("./routes/" + r));
 });
