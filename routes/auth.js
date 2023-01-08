@@ -12,8 +12,6 @@ const {
   home,
 } = require("../controllers/auth");
 
-router.get("/", home);
-
 router.post("/create-or-update-user", authCheck, createOrUpdateUser);
 router.post("/current-user", authCheck, currentUser);
 router.post("/current-admin", authCheck, adminCheck, currentUser);

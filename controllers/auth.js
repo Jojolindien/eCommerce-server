@@ -26,9 +26,3 @@ exports.currentUser = async (req, res) => {
     res.json(user);
   });
 };
-
-exports.home = (req, res) => {
-  res.json({
-    data: "hey you hit node api back end !",
-  });
-};
