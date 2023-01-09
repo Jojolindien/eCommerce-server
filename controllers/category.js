@@ -1,11 +1,9 @@
 const Category = require("../models/category");
 const slugify = require("slugify");
-const { findOne } = require("../models/category");
 
 exports.create = async (req, res) => {
   try {
     const { name } = req.body;
-    console.log(name)
     const category = await new Category({
       name: name,
       slug: slugify(name),
