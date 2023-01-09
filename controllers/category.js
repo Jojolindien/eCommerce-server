@@ -5,10 +5,12 @@ const { findOne } = require("../models/category");
 exports.create = async (req, res) => {
   try {
     const { name } = req.body;
+    console.log(name)
     const category = await new Category({
       name: name,
       slug: slugify(name),
     }).save();
+    // console.log(category)
     res.json(category);
   } catch (err) {
     // console.log(err);

@@ -15,7 +15,7 @@ const {
 } = require("../controllers/category");
 
 //routes
-router.post("/category", authCheck, adminCheck, create);
+router.post("/category", create);
 router.get("/categories", list);
 router.get("/category/:slug", read);
 router.put("/category/:slug", authCheck, adminCheck, update);
