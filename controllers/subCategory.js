@@ -3,9 +3,10 @@ const slugify = require("slugify");
 
 exports.create = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name, parent } = req.body;
     const category = await new SubCategory({
       name: name,
+      parent,
       slug: slugify(name),
     }).save();
     // console.log(category)
@@ -18,12 +19,12 @@ exports.create = async (req, res) => {
 
 exports.list = async (req, res) => {
   const listSubCategories = await SubCategory.find({}).sort({ createdAt: -1 }).exec();
-  res.json(listCategories);
+  res.json(listSubCategories);
 };
 
 exports.read = async (req, res) => {
   const subSlugCategory = await SubCategory.findOne({ slug: req.params.slug }).exec();
-  res.json(subSlugCategory);
+  res.json(listSubCategories);
 };
 
 exports.update = async (req, res) => {
