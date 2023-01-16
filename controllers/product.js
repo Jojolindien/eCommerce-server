@@ -13,3 +13,13 @@ exports.create = async (req, res) => {
     res.status(400).send("Create product failed");
   }
 };
+
+exports.read = async (req, res) => {
+  try {
+    const products = await Product.find({})
+    res.json(products);
+  } catch (err) {
+    console.log(err);
+    res.status(400).send("Get all products failed");
+  }
+};
