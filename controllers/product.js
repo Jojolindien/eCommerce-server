@@ -14,9 +14,15 @@ exports.create = async (req, res) => {
   }
 };
 
-exports.read = async (req, res) => {
+exports.listAll = async (req, res) => {
   try {
+    console.log("COUNT PRODUCT GET ALL : ",req.params.count)
     const products = await Product.find({})
+      .limit(parseInt(req.params.count))
+      .populate('category')
+      .populate('subCategories')
+      .sort ([["createdAt","desc"]])
+      .exec();
     res.json(products);
   } catch (err) {
     console.log(err);
