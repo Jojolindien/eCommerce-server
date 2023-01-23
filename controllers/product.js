@@ -16,16 +16,28 @@ exports.create = async (req, res) => {
 
 exports.listAll = async (req, res) => {
   try {
-    console.log("COUNT PRODUCT GET ALL : ",req.params.count)
+    console.log("COUNT PRODUCT GET ALL : ", req.params.count);
     const products = await Product.find({})
       .limit(parseInt(req.params.count))
-      .populate('category')
-      .populate('subCategories')
-      .sort ([["createdAt","desc"]])
+      .populate("category")
+      .populate("subCategories")
+      .sort([["createdAt", "desc"]])
       .exec();
     res.json(products);
   } catch (err) {
     console.log(err);
     res.status(400).send("Get all products failed");
+  }
+};
+
+exports.remove = async (req, res) => {
+  try {
+    const deleted = await Product.findOneAndRemove({
+      slug: req.params.slug,
+    }).exec();
+    res.json(deleted);
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send("Product deleting failed");
   }
 };
