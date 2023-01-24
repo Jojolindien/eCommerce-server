@@ -41,3 +41,11 @@ exports.remove = async (req, res) => {
     return res.status(400).send("Product deleting failed");
   }
 };
+
+exports.read = async (req, res) => {
+  const product = await Product.findOne({ slug: req.params.slug })
+    .populate("category")
+    .populate("subCategories")
+    .exec();
+  res.json(product);
+};
