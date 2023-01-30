@@ -43,6 +43,7 @@ exports.remove = async (req, res) => {
 };
 
 exports.read = async (req, res) => {
+  console.log("REQUETE READ", req.body)
   const product = await Product.findOne({ slug: req.params.slug })
     .populate("category")
     .populate("subCategories")
@@ -51,6 +52,7 @@ exports.read = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
+  console.log("REQUETE", req.body)
   try {
     if (req.body.title) {
       req.body.slug = slugify(req.body.title);
@@ -60,10 +62,11 @@ exports.update = async (req, res) => {
       { slug: req.params.slug },
       req.body,
       { new: true }
-    );
+    ).exec();
+    console.log("UPDATING", updated);
     res.json(updated);
   } catch (err) {
-    console.log("PRODUCT UPDATE ERROR", err);
-    return res.status(400).send("Product update failed");
+    console.log("PRODUCT UPDATE ERROR : ", err);
+    return res.status(400).json({ err: err.message });
   }
 };
