@@ -43,7 +43,7 @@ exports.remove = async (req, res) => {
 };
 
 exports.read = async (req, res) => {
-  console.log("REQUETE READ", req.body)
+  console.log("REQUETE READ", req.body);
   const product = await Product.findOne({ slug: req.params.slug })
     .populate("category")
     .populate("subCategories")
@@ -52,7 +52,7 @@ exports.read = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  console.log("REQUETE", req.body)
+  console.log("REQUETE", req.body);
   try {
     if (req.body.title) {
       req.body.slug = slugify(req.body.title);
@@ -68,5 +68,22 @@ exports.update = async (req, res) => {
   } catch (err) {
     console.log("PRODUCT UPDATE ERROR : ", err);
     return res.status(400).json({ err: err.message });
+  }
+};
+
+exports.list = async (req, res) => {
+  try {
+    //createdAt/updatedAt, desc/asc, 3
+    const { sort, order, limit } = req.body;
+    const products = await Product.find({})
+      .populate("category")
+      .populate("subCategories")
+      .sort([[sort, order]])
+      .limit(limit)
+      .exec();
+
+    res.json(products);
+  } catch (err) {
+    console.log(err);
   }
 };
