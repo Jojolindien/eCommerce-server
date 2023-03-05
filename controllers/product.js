@@ -154,3 +154,20 @@ exports.productStar = async (req, res) => {
     res.json(ratingUpdated);
   }
 };
+
+exports.listRelated = async (req, res) => {
+  const product = await Product.findById(req.params.productId).exec();
+  const related = await Product.find({
+    //ne = not including
+    _id: { $ne: product._id },
+    category: product.category,
+  })
+    .limit(1)
+    .populate("category")
+    .populate("subCategories")
+    .populate("ratings.postedBy")
+    .exec();
+  //exemple si on ne veut pas certaine donnée
+  // .populate('postedBy', '-password')
+  res.json(related);
+};
